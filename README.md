@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="VeriLoop">
+</p>
+
 # VeriLoop 🔁
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue)

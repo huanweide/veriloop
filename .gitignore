@@ -10,4 +10,3 @@ venv/
 .idea/
 .vscode/
 *.png
-!assets/social-preview.png
