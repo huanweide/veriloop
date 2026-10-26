@@ -70,6 +70,21 @@ VeriLoop 只做一件事：**让「修好了」这个结论，来自模型之外
 - 可机械验证的轴（如 security），Healer 会在沙箱里**真的跑一遍**证明修复变绿，才标 `verified_green`。
 - 运行 `veriloop selftest`：它造一个含 `eval` 的临时项目，证明引擎能拦住「假修复」并给出验证过的修复候选；再造一个干净项目，证明全绿。全程只用临时目录，不碰你的代码。
 
+## 核心模块（代码映射）
+
+架构不只讲道理，也落到仓库具体文件，方便你直接翻源码：
+
+| 模块 | 文件 · 符号 | 说明 |
+|---|---|---|
+| 感知层 | `veriloop/engine.py` · `PerceptionLayer` | 加载并调度 12 个分析轴，产出带证据的轴报告 |
+| 刹车内核 | `veriloop/engine.py` · `BrakeCore` | 四道刹车：根因闸门 / 判别测试 / 验证闸门 / 逃逸阶梯 |
+| 收敛协议 | `veriloop/engine.py` · `ConvergenceProtocol` | 逃逸阶梯 + 防空转，决定「继续修 / 停转」 |
+| 修复候选 | `veriloop/healer.py` | 沙箱副本验证修复，绝不改用户代码 |
+| 分析轴 | `veriloop/axes/*.py` | 12 个零依赖、离线、确定性检查器，可插拔 |
+| 共享助手 | `veriloop/axes/_common.py` | 遍历 / 计分 / 圈复杂度 / 去字符串注释 等通用工具 |
+| CLI | `veriloop/cli.py` | `scan` / `check` / `selftest` 入口 |
+| 自测 | `veriloop/selftest.py` | 造对照样本，证明能拦假绿 + 干净全绿 |
+
 ## 术语表
 
 - **轴 (axis)**：一个独立的小检查器，输入目录、输出 report。
